@@ -41,7 +41,7 @@ function get (url, options) {
                     notify({
                         url: url,
                         options: options,
-                        redirect: response.headers.location
+                        redirect: response.headers.location,
                         status: response.statusCode,
                         headers: response.headers,
                     });

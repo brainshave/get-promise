@@ -1,6 +1,6 @@
 {
   "name": "get-promise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "HTTP(S) GET with promises, supports redirects",
   "main": "index.js",
   "repository": {
