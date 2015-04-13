@@ -10,12 +10,16 @@ Treats all responses as UTF-8 encoded text.
     var get = require('get-promise');
 
     get(url, options).then(function (result) {
+        // options (optional argument) can be:
+        // {
+        //     method: 'GET' by default
+        // }
         // result is:
         // {
         //     url: url,
-        //     status: statusCode,
+        //     status: status code,
         //     headers: { … },
-        //     data: responseBody,
+        //     data: response body,
         //     options: options
         // }
     }, function (error) {
@@ -26,15 +30,15 @@ Treats all responses as UTF-8 encoded text.
         // notice is either:
         // {
         //     url: url,
-        //     status: statusCode,
+        //     status: status code,
         //     headers: { … }
         //     options: options,
         // }
-        // or in case of redirect
+        // or in case of redirect:
         // {
         //     url: url,
         //     redirect: headers.location,
-        //     status: statusCode,
+        //     status: status code,
         //     headers: { … },
         //     options: options
         // }
