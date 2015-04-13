@@ -17,19 +17,37 @@ function get (url) {
             });
 
             response.on('end', function () {
-                notify({ got: url, code: response.statusCode });
-
                 if (response.statusCode < 300) {
+                    notify({
+                        got: url,
+                        status: response.statusCode,
+                        headers: response.headers
+                    });
+
                     resolve({
                         status: response.statusCode,
+                        headers: response.headers,
                         data: data.join('')
                     });
                 } else if (response.statusCode < 400) {
-                    notify({ redirect: response.headers.location });
+                    notify({
+                        got: url,
+                        status: response.statusCode,
+                        headers: response.headers,
+                        redirect: response.headers.location
+                    });
+
                     resolve(get(response.headers.location));
                 } else {
+                    notify({
+                        got: url,
+                        status: response.statusCode,
+                        headers: response.headers
+                    });
+
                     reject({
                         status: response.statusCode,
+                        headers: response.headers,
                         data: data.join('')
                     });
                 }
