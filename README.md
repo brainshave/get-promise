@@ -9,14 +9,15 @@ Treats all responses as UTF-8 encoded text.
 
     var get = require('get-promise');
 
-    http.get('http://brainshave.com').then(function (result) {
+    get(url, options).then(function (result) {
         // result is:
         // {
+        //     url: url,
         //     status: statusCode,
         //     headers: { … },
-        //     data: responseBody
+        //     data: responseBody,
+        //     options: options
         // }
-        }
     }, function (error) {
         // error is either:
         // - same as 'result' above for HTTP error
@@ -24,16 +25,18 @@ Treats all responses as UTF-8 encoded text.
     }, function (notice) {
         // notice is either:
         // {
-        //     got: uri,
+        //     url: url,
         //     status: statusCode,
         //     headers: { … }
+        //     options: options,
         // }
         // or in case of redirect
         // {
-        //     got: uri,
-        //     redirect: headers.location
+        //     url: url,
+        //     redirect: headers.location,
         //     status: statusCode,
-        //     headers: { … }
+        //     headers: { … },
+        //     options: options
         // }
     });
 
