@@ -26,13 +26,14 @@ function get (url, options) {
                 if (response.statusCode < 300) {
                     notify({
                         url: url,
-                        status: response.statusCode,
                         options: options,
+                        status: response.statusCode,
                         headers: response.headers
                     });
 
                     resolve({
                         url: url,
+                        options: options,
                         status: response.statusCode,
                         headers: response.headers,
                         data: data.join('')
@@ -41,18 +42,18 @@ function get (url, options) {
                     notify({
                         url: url,
                         options: options,
-                        redirect: response.headers.location,
                         status: response.statusCode,
                         headers: response.headers,
+                        redirect: response.headers.location
                     });
 
                     resolve(get(response.headers.location));
                 } else {
                     notify({
                         url: url,
+                        options: options,
                         status: response.statusCode,
-                        headers: response.headers,
-                        options: options
+                        headers: response.headers
                     });
 
                     reject({
