@@ -10,6 +10,7 @@ function get (url, options) {
 
     var config = parseURL(url);
     config.method = options.method || 'GET';
+    config.headers = options.headers || {};
 
     return Q.Promise(function (resolve, reject, notify) {
         var http = require(url.match(/^https?/)[0]);
