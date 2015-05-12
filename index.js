@@ -1,6 +1,7 @@
 'use strict';
 
 var Q = require('q');
+var _ = require('lodash');
 var parseURL = require('url').parse;
 
 module.exports = get;
@@ -18,9 +19,15 @@ function get (url, options) {
         http.request(config, function (response) {
             response.setEncoding('utf8');
             var data = [];
+            var headers = [];
 
             response.on('data', function (chunk) {
                 data.push(chunk);
+            });
+
+            response.on('header', function (header) {
+                headers.push(header);
+                console.log(header);
             });
 
             response.on('end', function () {
@@ -37,6 +44,7 @@ function get (url, options) {
                         options: options,
                         status: response.statusCode,
                         headers: response.headers,
+                        rawHeaders: groupRawHeaders(response.rawHeaders),
                         data: data.join('')
                     });
                 } else if (response.statusCode < 400) {
@@ -62,10 +70,22 @@ function get (url, options) {
                         options: options,
                         status: response.statusCode,
                         headers: response.headers,
+                        rawHeaders: groupRawHeaders(response.rawHeaders),
                         data: data.join('')
                     });
                 }
             });
         }).on('error', reject).end();
     });
+}
+
+function groupRawHeaders (list) {
+    return _.chain(list).groupBy(function (value, index) {
+        return Math.floor(index / 2);
+    }).map(function (arr) {
+        return {
+            name: arr[0],
+            value: arr[1]
+        }
+    }).value();
 }

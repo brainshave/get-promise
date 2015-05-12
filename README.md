@@ -19,6 +19,7 @@ Treats all responses as UTF-8 encoded text.
         //     url: url,
         //     status: status code,
         //     headers: { … },
+        //     rawHeaders: [{ name: …, value: … }, …]
         //     data: response body,
         //     options: options
         // }
