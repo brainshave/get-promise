@@ -13,21 +13,20 @@ function get (url, options) {
     config.method = options.method || 'GET';
     config.headers = options.headers || {};
 
+    var binary = options.binary;
+
     return Q.Promise(function (resolve, reject, notify) {
         var http = require(url.match(/^https?/)[0]);
 
         http.request(config, function (response) {
-            response.setEncoding('utf8');
+            if (!binary) {
+                response.setEncoding('utf8');
+            }
+
             var data = [];
-            var headers = [];
 
             response.on('data', function (chunk) {
                 data.push(chunk);
-            });
-
-            response.on('header', function (header) {
-                headers.push(header);
-                console.log(header);
             });
 
             response.on('end', function () {
@@ -45,7 +44,7 @@ function get (url, options) {
                         status: response.statusCode,
                         headers: response.headers,
                         rawHeaders: groupRawHeaders(response.rawHeaders),
-                        data: data.join('')
+                        data: binary ? Buffer.concat(data) : data.join('')
                     });
                 } else if (response.statusCode < 400) {
                     notify({
@@ -71,7 +70,7 @@ function get (url, options) {
                         status: response.statusCode,
                         headers: response.headers,
                         rawHeaders: groupRawHeaders(response.rawHeaders),
-                        data: data.join('')
+                        data: binary ? Buffer.concat(data) : data.join('')
                     });
                 }
             });
