@@ -3,6 +3,10 @@
 var Q = require('q');
 var _ = require('lodash');
 var parseURL = require('url').parse;
+var net_modules = {
+    http: require('http'),
+    https: require('https')
+};
 
 module.exports = get;
 
@@ -16,7 +20,7 @@ function get (url, options) {
     var binary = options.binary;
 
     return Q.Promise(function (resolve, reject, notify) {
-        var http = require(url.match(/^https?/)[0]);
+        var http = net_modules[url.match(/^https?/)[0]];
 
         http.request(config, function (response) {
             if (!binary) {
