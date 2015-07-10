@@ -18,6 +18,7 @@ function get (url, options) {
     config.headers = options.headers || {};
 
     var binary = options.binary;
+    var redirect = options.redirect;
 
     return Q.Promise(function (resolve, reject, notify) {
         var http = net_modules[url.match(/^https?/)[0]];
@@ -50,7 +51,7 @@ function get (url, options) {
                         rawHeaders: groupRawHeaders(response.rawHeaders),
                         data: binary ? Buffer.concat(data) : data.join('')
                     });
-                } else if (response.statusCode < 400) {
+                } else if (redirect && response.statusCode < 400) {
                     notify({
                         url: url,
                         options: options,
