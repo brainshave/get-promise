@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/brainshave/get-promise",
   "dependencies": {
-    "lodash": "^3.8.0",
+    "lodash": "^4.17.15",
     "q": "^1.2.0"
   }
 }
